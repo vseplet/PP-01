@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "server": "deno run --allow-all --unstable ./source/server/main.ts",
+    "client": "deno run --allow-all --unstable ./source/client/main.ts"
+  }
+}
