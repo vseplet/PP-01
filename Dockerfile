@@ -1,6 +1,6 @@
 FROM denoland/deno:latest
 
-WORKDIR /usr/src/gigabot
+WORKDIR /app
 
 COPY . .
 
