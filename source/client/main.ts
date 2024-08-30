@@ -9,7 +9,7 @@ const connect = () => {
 
   ws.onmessage = function (event) {
     try {
-      // console.log(`[message] Data received from server: ${event.data}`);
+      console.log(`[message] Data received from server: ${event.data}`);
       const msg = JSON.parse(event.data);
       ws.send(JSON.stringify({
         id: msg.id,
@@ -20,9 +20,9 @@ const connect = () => {
 
   ws.onclose = function (event) {
     if (event.wasClean) {
-      // console.log(
-      //   `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,
-      // );
+      console.log(
+        `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,
+      );
     } else {
       // e.g. server process killed or network down
       // event.code is usually 1006 in this case
@@ -44,7 +44,7 @@ connect();
 // Tester
 setInterval(async () => {
   try {
-    await fetch("http://localhost:8000/hi", {
+    await fetch("http://portal-vqhj.onrender.com/hi", {
       method: "POST",
       body: JSON.stringify({
         "data": Math.random(),
@@ -52,10 +52,3 @@ setInterval(async () => {
     });
   } catch (e) {}
 }, 1000);
-
-Deno.serve({
-  port: 1000,
-}, async (req: Request) => {
-  console.log(req);
-  return new Response("ok");
-});
