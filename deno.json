@@ -1,6 +1,8 @@
 {
   "tasks": {
-    "server": "deno run --allow-all --unstable ./source/server/main.ts",
-    "client": "deno run --allow-all --unstable ./source/client/main.ts"
+    "portal:server": "deno run --allow-all --unstable --watch ./source/server/main.ts",
+    "portal:client": "deno run --allow-all --unstable --watch ./source/client/main.ts",
+    "app:client": "deno",
+    "app:server": "deno"
   }
 }
