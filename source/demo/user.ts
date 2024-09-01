@@ -15,5 +15,19 @@ setInterval(async () => {
         }),
       },
     );
+
+    await fetch(
+      `https://portal-vqhj.onrender.com/${tunnelName}/hohoho/keks?f=${Math.random()}`,
+      {
+        method: "POST",
+        headers: {
+          "blabla-blabla": `${Math.random()}`,
+        },
+        body: JSON.stringify({
+          "data1": Math.random(),
+          "data2": Math.random(),
+        }),
+      },
+    );
   } catch (e) {}
 }, 10000);

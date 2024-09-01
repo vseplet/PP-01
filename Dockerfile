@@ -4,8 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN deno cache ./source/server/main.ts
+RUN deno cache ./source/service/main.ts
 
-ENV PORT=8080
-
-CMD ["deno", "run", "--allow-all", "--unstable", "./source/server/main.ts"]
+CMD ["deno", "run", "--allow-all", "--unstable", "./source/service/main.ts"]

@@ -1,4 +1,5 @@
 export const connect = (url: string, tunnelName = "test") => {
+  console.log(url);
   const ws = new WebSocket(url);
 
   ws.onopen = function (e) {

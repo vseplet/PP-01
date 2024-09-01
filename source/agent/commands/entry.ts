@@ -4,7 +4,7 @@ import { auth } from "./auth.ts";
 import { remove } from "./remove.ts";
 import { set } from "./set.ts";
 import { start } from "./start.ts";
-import { REMOTE_VERSION, VERSION } from "../constants.ts";
+import { IS_DEVELOP, REMOTE_VERSION, VERSION } from "../constants.ts";
 import { upgrade } from "./upgrade.ts";
 
 const logoText = `
@@ -19,6 +19,7 @@ const introText = `
   Created by Vsevolod Pletnev with <3
 
   Use "pp -h" to get help on commands.
+  ${IS_DEVELOP}
 `;
 
 export const entry = new Command()

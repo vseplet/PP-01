@@ -3,7 +3,7 @@
   "tasks": {
     "portal:service": "deno run --allow-all --unstable --watch ./source/service/main.ts",
     "portal:agent": "DEV=true deno run --allow-net --allow-env --unstable-kv --watch ./source/agent/main.ts",
-    "portal:agent-remote": "deno run --allow-all --unstable --watch ./source/agent/main.ts",
+    "portal:agent-remote": "deno run --allow-net --allow-env --unstable-kv ./source/agent/main.ts",
     "demo:user": "deno run --allow-all --unstable --watch ./source/demo/user.ts",
     "demo:app": "deno run --allow-all --unstable --watch ./source/demo/app.ts"
   }
