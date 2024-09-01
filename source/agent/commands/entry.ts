@@ -15,8 +15,8 @@ const logoText = `
 `;
 
 const introText = `
-  Version ${VERSION}
-  Created by Vsevolod Pletnev with <3
+  Version ${colors.green(VERSION)}
+  Created by Vsevolod Pletnev with ${colors.red("<3")}
 
   Use "pp -h" to get help on commands.
   ${IS_DEVELOP}
