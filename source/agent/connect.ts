@@ -1,18 +1,22 @@
-const connect = () => {
-  const ws = new WebSocket("wss://portal-vqhj.onrender.com");
+export const connect = (url: string, tunnelName = "test") => {
+  const ws = new WebSocket(url);
 
   ws.onopen = function (e) {
     console.log("[open] Connection established");
     console.log("Sending to server");
-    ws.send("ping");
+    ws.send(JSON.stringify({
+      isPortal: true,
+      open: tunnelName,
+    }));
   };
 
   ws.onmessage = function (event) {
     try {
       console.log(`[message] Data received from server: ${event.data}`);
-      const msg = JSON.parse(event.data);
+      const msg = JSON.parse(event.data); // превратить в Request!!!
       ws.send(JSON.stringify({
         id: msg.id,
+        tunnelName,
         body: "Test",
       }));
     } catch (e) {}
@@ -30,7 +34,7 @@ const connect = () => {
     }
 
     setTimeout(function () {
-      connect();
+      connect(url, tunnelName);
     }, 1000);
   };
 
@@ -38,17 +42,3 @@ const connect = () => {
     console.log(`[error]`);
   };
 };
-
-connect();
-
-// Tester
-setInterval(async () => {
-  try {
-    await fetch("http://portal-vqhj.onrender.com/hi", {
-      method: "POST",
-      body: JSON.stringify({
-        "data": Math.random(),
-      }),
-    });
-  } catch (e) {}
-}, 1000);
