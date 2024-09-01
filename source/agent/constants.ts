@@ -5,7 +5,13 @@ const remoteDenoJson = await fetchJSON(
   `https://raw.githubusercontent.com/vseplet/PP-01/main/deno.json`,
 ) as unknown as typeof localDenoJson;
 
-export const IS_DEVELOP = Deno.env.get("DEV") || false;
+const permissionEnv = Deno.permissions.querySync({ name: "env" }).state;
+
+export const IS_DEVELOP = permissionEnv == "granted"
+  ? Deno.env.get("DEV") || false
+  : false;
+
+console.log(IS_DEVELOP);
 
 export const VERSION = localDenoJson["version"];
 export const REMOTE_VERSION = remoteDenoJson["version"] || VERSION;

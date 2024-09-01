@@ -8,21 +8,22 @@ import { REMOTE_VERSION, VERSION } from "../constants.ts";
 import { upgrade } from "./upgrade.ts";
 
 const introText = `
- _____  _____       ___  ___
-|  _  ||  _  | ___ |   ||_  |
-|   __||   __||___|| | | _| |_
-|__|   |__|        |___||_____|
+   _____  _____       ___  ___
+  |  _  ||  _  | ___ |   ||_  |
+  |   __||   __||___|| | | _| |_
+  |__|   |__|        |___||_____|
 
-version ${VERSION}
-created by Vsevolod Pletnev with <3
+  Version ${VERSION}
+  Created by Vsevolod Pletnev with <3
+
+  Use "pp -h" to get help on commands.
 `;
 
 export const entry = new Command()
   .name("pp")
   .usage("start")
-  .description("Command line framework for Deno")
-  // .globalOption("-d, --debug", "Enable debug output.")
-  .action((options, ...args) => {
+  .description("Simple API gateway based on Deno")
+  .action((_options, ..._args) => {
     console.log(introText);
 
     if (REMOTE_VERSION !== VERSION) {
@@ -30,7 +31,7 @@ export const entry = new Command()
       Deno.exit();
     }
 
-    entry.showHelp();
+    // entry.showHelp();
     Deno.exit();
   })
   .command("auth", auth)
