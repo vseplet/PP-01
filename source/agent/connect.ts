@@ -1,26 +1,40 @@
-export const connect = (url: string, tunnelName = "test") => {
-  console.log(url);
-  const ws = new WebSocket(url);
+export const connect = (url: string, tunnelName = "test", attempts = 5) => {
+  const port = 8000;
+  console.log(`${url}/${tunnelName}`);
+  const ws = new WebSocket(`${url}/${tunnelName}`);
 
   ws.onopen = function (e) {
     console.log("[open] Connection established");
-    console.log("Sending to server");
-    ws.send(JSON.stringify({
-      isPortal: true,
-      open: tunnelName,
-    }));
   };
 
-  ws.onmessage = function (event) {
+  ws.onmessage = async (event) => {
     try {
-      console.log(`[message] Data received from server: ${event.data}`);
-      const msg = JSON.parse(event.data); // превратить в Request!!!
+      const msg = JSON.parse(event.data);
+
+      // console.log(JSON.stringify(msg, null, 2));
+      const response = await fetch(
+        new Request(
+          `http://localhost:${port}/${msg.localPartOfURL}`,
+          {
+            method: msg.method,
+            headers: msg.headers,
+            body: msg.body,
+          },
+        ),
+      );
+
+      const headers: { [key: string]: string } = {};
+      response.headers.forEach((value, key) => headers[key] = value);
+
       ws.send(JSON.stringify({
         id: msg.id,
         tunnelName,
-        body: "Test",
+        headers,
+        body: await response.text(),
       }));
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   ws.onclose = function (event) {
@@ -29,13 +43,17 @@ export const connect = (url: string, tunnelName = "test") => {
         `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,
       );
     } else {
-      // e.g. server process killed or network down
-      // event.code is usually 1006 in this case
-      console.log("[close] Connection died");
+      console.log(event);
+      console.log(`[close] Connection died, reason=${event.reason}`);
     }
 
     setTimeout(function () {
-      connect(url, tunnelName);
+      if (attempts) {
+        console.log(`try to reconnect...`);
+        connect(url, tunnelName, attempts - 1);
+      } else {
+        Deno.exit(-1);
+      }
     }, 1000);
   };
 
