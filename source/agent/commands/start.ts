@@ -1,11 +1,13 @@
 import { Command } from "../../deps.ts";
 import { connect } from "../connect.ts";
 import { WEBSOCKET_URL } from "../constants.ts";
+import { kv } from "../kv.ts";
 
 export const start = new Command()
   .description("start subcommand description")
-  .arguments("<tunnel_name:string>")
+  .arguments("<alias:string>")
   .action(async (options, ...args) => {
-    const [tunnelName] = args;
-    connect(WEBSOCKET_URL, tunnelName);
+    const data = (await kv.get(["tunnels", args[0]])).value as any;
+
+    connect(WEBSOCKET_URL, data.name);
   });
