@@ -7,9 +7,9 @@ import {
 
 export const upgrade = new Command()
   .description("upgrade subcommand description")
-  .action(async (options, ...args) => {
-    if (REMOTE_VERSION !== VERSION) {
-      await shelly([
+  .action(async (_options, ..._args) => {
+    if (REMOTE_VERSION != VERSION) {
+      const res = await shelly([
         "deno",
         "install",
         "-r",
@@ -17,12 +17,13 @@ export const upgrade = new Command()
         "--allow-net",
         "--allow-run",
         "--unstable-kv",
-        "-n pp",
+        "-n",
+        "pp",
         ENTRYPOINT_SOURCE_URL,
       ]);
+      console.log(res.stderr || res.stderr);
+      Deno.exit(res.code);
     } else {
       console.log(`  The latest version is already installed!`);
     }
-
-    Deno.exit();
   });

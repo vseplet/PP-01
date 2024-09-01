@@ -1,9 +1,9 @@
 {
-  "version": "0.0.5-test",
+  "version": "0.0.6-test",
   "tasks": {
     "portal:service": "deno run --allow-all --unstable --watch ./source/service/main.ts",
-    "portal:agent": "DEV=true deno run --allow-net --allow-env --unstable-kv --watch ./source/agent/main.ts",
-    "portal:agent-remote": "deno run --allow-net --allow-env --unstable-kv ./source/agent/main.ts",
+    "portal:agent": "DEV=true deno run --allow-run --allow-net --allow-env --unstable-kv --watch ./source/agent/main.ts",
+    "portal:agent-remote": "deno run --allow-run --allow-net --allow-env --unstable-kv ./source/agent/main.ts",
     "demo:user": "deno run --allow-all --unstable --watch ./source/demo/user.ts",
     "demo:app": "deno run --allow-all --unstable --watch ./source/demo/app.ts"
   }

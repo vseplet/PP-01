@@ -1,5 +1,14 @@
-export const connect = (url: string, tunnelName = "test", attempts = 5) => {
-  const port = 8000;
+import { kv } from "./kv.ts";
+
+export const connect = async (
+  url: string,
+  alias = "test",
+  attempts = 5,
+) => {
+  const data = (await kv.get(["tunnels", alias])).value as any;
+  const tunnelName = data.name;
+  const port = data.port;
+
   console.log(`${url}/${tunnelName}`);
   const ws = new WebSocket(`${url}/${tunnelName}`);
 
@@ -10,6 +19,10 @@ export const connect = (url: string, tunnelName = "test", attempts = 5) => {
   ws.onmessage = async (event) => {
     try {
       const msg = JSON.parse(event.data);
+
+      console.log(
+        `request ${msg.id} from tunnel "${tunnelName}" to "${msg.localPartOfURL}"`,
+      );
 
       // console.log(JSON.stringify(msg, null, 2));
       const response = await fetch(
