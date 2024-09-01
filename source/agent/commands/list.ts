@@ -1,7 +1,7 @@
 import { Table } from "https://deno.land/x/cliffy@v0.25.7/table/table.ts";
 import { Command } from "../../deps.ts";
 import { kv } from "../kv.ts";
-import { setup } from "./setup.ts";
+import { set } from "./set.ts";
 
 export const list = new Command()
   .name("list")
@@ -11,13 +11,14 @@ export const list = new Command()
 
     if (tunnels.length > 0) {
       const table = new Table()
-        .header(["name", "port"])
+        .header(["alias", "tunnel name", "port"])
         .border(true)
         // .padding(1)
         .indent(2);
 
       tunnels.forEach((tunnel, index) => {
-        table.push([tunnel.key[1] as string, tunnel.value as number]);
+        const value = tunnel.value as any;
+        table.push([value.alias, value.name, value.port]);
         // console.log(
         //   `${index}: ${tunnel.key[1] as string}, port ${tunnel.value}`,
         // );
@@ -25,8 +26,8 @@ export const list = new Command()
 
       table.render();
     } else {
-      console.log(`  No tunnels found! Use setup:`);
-      setup.showHelp();
+      console.log(`  No tunnels found! Use set:`);
+      set.showHelp();
     }
 
     Deno.exit(0);

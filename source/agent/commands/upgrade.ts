@@ -12,8 +12,10 @@ export const upgrade = new Command()
       await shelly([
         "deno",
         "install",
-        "--allow-net",
         "-r",
+        "-f",
+        "--allow-net",
+        "--allow-run",
         "--unstable-kv",
         "-n pp",
         ENTRYPOINT_SOURCE_URL,
