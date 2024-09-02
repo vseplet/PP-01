@@ -61,7 +61,7 @@ export const requestHandler = async (url: URL, req: Request) => {
       });
     }
 
-    await delay(1);
+    await delay(100);
   }
 
   console.log(`timeout ${id} ${tunnelName}`);

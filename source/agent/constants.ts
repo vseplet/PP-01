@@ -18,7 +18,7 @@ export const ENTRYPOINT_SOURCE_URL =
   `https://raw.githubusercontent.com/vseplet/PP-01/main/source/agent/main.ts`;
 
 export const SERVICE_DOMAIN = IS_DEVELOP
-  ? "localhost:3000"
+  ? "localhost:4000"
   : "portal-vqhj.onrender.com";
 
 export const WEBSOCKET_URL = `${

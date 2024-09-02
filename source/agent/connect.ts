@@ -23,21 +23,39 @@ export const connect = async (
     try {
       const msg = JSON.parse(event.data);
 
+      // console.log(event.data);
+
       console.log(
-        `request ${msg.id} from tunnel "${tunnelName}" to "${msg.localPartOfURL}"`,
+        `request ${msg.id} from tunnel "${tunnelName}" to "${`http://localhost:${port}/${msg.localPartOfURL}`}"`,
       );
 
       // console.log(JSON.stringify(msg, null, 2));
+      const init: any = {
+        method: msg.method,
+        headers: msg.headers,
+      };
+
+      if (msg.body.length > 0) {
+        init["body"] = msg.body;
+      }
+
       const response = await fetch(
         new Request(
           `http://localhost:${port}/${msg.localPartOfURL}`,
-          {
-            method: msg.method,
-            headers: msg.headers,
-            body: msg.body,
-          },
+          init,
         ),
       );
+
+      console.log(
+        `response ${msg.id} from "${`http://localhost:${port}/${msg.localPartOfURL}`}" to tunnel "${tunnelName}": ${response.status}`,
+      );
+
+      // console.log(response.headers);
+      const body = await response.text();
+      // console.log(body);
+      // console.log(response.status);
+      // console.log(response.statusText);
+      // console.log(body.length);
 
       const headers: { [key: string]: string } = {};
       response.headers.forEach((value, key) => headers[key] = value);
@@ -46,7 +64,7 @@ export const connect = async (
         id: msg.id,
         tunnelName,
         headers,
-        body: await response.text(),
+        body,
       }));
     } catch (e) {
       console.log(e);
@@ -77,3 +95,5 @@ export const connect = async (
     console.log(`[error]`);
   };
 };
+
+// TODO: ломается на  "if-none-match": "W/\"3e1-qIbHSACSDE3MWk8XsBJnCcIv8O8\"",

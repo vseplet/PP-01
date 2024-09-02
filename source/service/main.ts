@@ -10,5 +10,5 @@ async function handler(req: Request): Promise<Response> {
 }
 
 Deno.serve({
-  port: Number(Deno.env.get("PORT")) || 3000,
+  port: Number(Deno.env.get("PORT")) || 4000,
 }, handler);
