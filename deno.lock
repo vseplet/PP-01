@@ -2,10 +2,14 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@std/encoding": "jsr:@std/encoding@1.0.1",
       "jsr:@std/ulid": "jsr:@std/ulid@1.0.0",
       "jsr:@vseplet/shelly@0.1.14": "jsr:@vseplet/shelly@0.1.14"
     },
     "jsr": {
+      "@std/encoding@1.0.1": {
+        "integrity": "5955c6c542ebb4ce6587c3b548dc71e07a6c27614f1976d1d3887b1196cf4e65"
+      },
       "@std/ulid@1.0.0": {
         "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
       },

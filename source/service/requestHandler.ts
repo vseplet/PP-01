@@ -1,4 +1,4 @@
-import { ulid } from "../deps.ts";
+import { base64, ulid } from "../deps.ts";
 import { tunnels } from "./tunnels.ts";
 import { delay } from "https://deno.land/x/delay@v0.2.0/mod.ts";
 
@@ -9,7 +9,6 @@ export const requestHandler = async (url: URL, req: Request) => {
 
   if (matchResult == undefined) return new Response(null, { status: 404 });
 
-  // по префиксу выбирается клиент
   const tunnelName = matchResult.pathname.groups
     .prefix as string;
 
@@ -26,21 +25,19 @@ export const requestHandler = async (url: URL, req: Request) => {
   const id = ulid();
   const headers: { [key: string]: string } = {};
   req.headers.forEach((value, key) => headers[key] = value);
-  const body = await req.text();
+  const body = base64.encodeBase64(await (await req.blob()).arrayBuffer());
   const method = req.method;
 
-  const outgoingMessage = {
-    localPartOfURL,
-    id,
-    method,
-    search,
-    path,
-    headers,
-    body,
-  };
-
   if (tunnels[tunnelName].ws.readyState === 1) {
-    tunnels[tunnelName].ws.send(JSON.stringify(outgoingMessage));
+    tunnels[tunnelName].ws.send(JSON.stringify({
+      localPartOfURL,
+      id,
+      method,
+      search,
+      path,
+      headers,
+      body,
+    }));
     console.log(`send msg ${id} to tunnel "${tunnelName}"`);
   } else {
     tunnels[tunnelName].ws.close();
@@ -56,7 +53,7 @@ export const requestHandler = async (url: URL, req: Request) => {
       const incomingMsg = tunnels[tunnelName].incomingMessageBuffer[id];
       delete tunnels[tunnelName].incomingMessageBuffer[id];
       console.log(`receive msg ${id} from tunnel "${tunnelName}"`);
-      return new Response(incomingMsg.body, {
+      return new Response(base64.decodeBase64(incomingMsg.body), {
         headers: incomingMsg.headers,
       });
     }

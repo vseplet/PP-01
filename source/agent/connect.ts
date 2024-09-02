@@ -1,10 +1,11 @@
+import { base64 } from "../deps.ts";
 import { SERVICE_DOMAIN } from "./constants.ts";
 import { kv } from "./kv.ts";
 
 export const connect = async (
   url: string,
   alias = "test",
-  attempts = 5,
+  attempts = 100,
 ) => {
   const data = (await kv.get(["tunnels", alias])).value as any;
   const tunnelName = data.name;
@@ -36,7 +37,7 @@ export const connect = async (
       };
 
       if (msg.body.length > 0) {
-        init["body"] = msg.body;
+        init["body"] = base64.decodeBase64(msg.body);
       }
 
       const response = await fetch(
@@ -51,7 +52,9 @@ export const connect = async (
       );
 
       // console.log(response.headers);
-      const body = await response.text();
+      const body = base64.encodeBase64(
+        await (await response.blob()).arrayBuffer(),
+      );
       // console.log(body);
       // console.log(response.status);
       // console.log(response.statusText);
@@ -92,8 +95,9 @@ export const connect = async (
   };
 
   ws.onerror = function (error) {
-    console.log(`[error]`);
+    console.log(`[error] ${error}`);
   };
 };
 
 // TODO: ломается на  "if-none-match": "W/\"3e1-qIbHSACSDE3MWk8XsBJnCcIv8O8\"",
+// TODO: не переподключается после засыпания хостинга
