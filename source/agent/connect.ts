@@ -1,3 +1,4 @@
+import { SERVICE_DOMAIN } from "./constants.ts";
 import { kv } from "./kv.ts";
 
 export const connect = async (
@@ -13,7 +14,9 @@ export const connect = async (
   const ws = new WebSocket(`${url}/${tunnelName}`);
 
   ws.onopen = function (e) {
-    console.log("[open] Connection established");
+    console.log(
+      `Tunnel opened through https://${SERVICE_DOMAIN}/${tunnelName}`,
+    );
   };
 
   ws.onmessage = async (event) => {
