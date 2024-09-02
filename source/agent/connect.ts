@@ -10,8 +10,6 @@ export const connect = async (
   const data = (await kv.get(["tunnels", alias])).value as any;
   const tunnelName = data.name;
   const port = data.port;
-
-  console.log(`${url}/${tunnelName}`);
   const ws = new WebSocket(`${url}/${tunnelName}`);
 
   ws.onopen = function (e) {
@@ -96,6 +94,11 @@ export const connect = async (
 
   ws.onerror = function (error) {
     console.log(`[error] ${error}`);
+
+    setTimeout(function () {
+      console.log(`try to reconnect...`);
+      connect(url, tunnelName, attempts);
+    }, 1000);
   };
 };
 
