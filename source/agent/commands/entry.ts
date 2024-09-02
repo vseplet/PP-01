@@ -7,16 +7,20 @@ import { start } from "./start.ts";
 import { IS_DEVELOP, REMOTE_VERSION, VERSION } from "../constants.ts";
 import { upgrade } from "./upgrade.ts";
 
+// https://www.asciiart.eu/text-to-ascii-art fontPagga
 const logoText = `
-   _____  _____       ___  ___
-  |  _  ||  _  | ___ |   ||_  |
-  |   __||   __||___|| | | _| |_
-  |__|   |__|        |___||_____|
-`;
+  ░░░░░░░░░░░░░░░░░░░░░░░░░
+  ░█▀█░█▀█░█▀▀░█░█░█▀▀░▀█▀░
+  ░█▀▀░█░█░█░░░█▀▄░█▀▀░░█░░
+  ░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░▀░░
+  ░█▀█░█▀█░█▀▄░▀█▀░█▀█░█░░░
+  ░█▀▀░█░█░█▀▄░░█░░█▀█░█░░░
+  ░▀░░░▀▀▀░▀░▀░░▀░░▀░▀░▀▀▀░
+  ░░░░░░░░░░░░░░░░░░░░░░░░░`;
 
 const introText = `
   Version ${colors.green(VERSION)}
-  Created by Vsevolod Pletnev with ${colors.red("<3")}
+  Crafted with ${colors.red("♥️")} by Vsevolod Pletnev
 
   Use "pp -h" to get help on commands.
   ${IS_DEVELOP}

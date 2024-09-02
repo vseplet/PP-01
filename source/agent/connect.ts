@@ -85,7 +85,7 @@ export const connect = async (
     setTimeout(function () {
       if (attempts) {
         console.log(`try to reconnect...`);
-        connect(url, tunnelName, attempts - 1);
+        connect(url, alias, attempts - 1);
       } else {
         Deno.exit(-1);
       }
@@ -97,7 +97,7 @@ export const connect = async (
 
     setTimeout(function () {
       console.log(`try to reconnect...`);
-      connect(url, tunnelName, attempts);
+      connect(url, alias, attempts);
     }, 1000);
   };
 };
