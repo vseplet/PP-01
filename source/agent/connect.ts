@@ -10,6 +10,7 @@ export const connect = async (
   const data = (await kv.get(["tunnels", alias])).value as any;
   const tunnelName = data.name;
   const port = data.port;
+  console.log(`${url}/${tunnelName}`);
   const ws = new WebSocket(`${url}/${tunnelName}`);
 
   ws.onopen = function (e) {
@@ -22,17 +23,20 @@ export const connect = async (
     try {
       const msg = JSON.parse(event.data);
 
-      // console.log(event.data);
-
       console.log(
         `request ${msg.id} from tunnel "${tunnelName}" to "${`http://localhost:${port}/${msg.localPartOfURL}`}"`,
       );
 
-      // console.log(JSON.stringify(msg, null, 2));
       const init: any = {
         method: msg.method,
         headers: msg.headers,
       };
+
+      // TODO: костыль, чтобы не работал hmr
+      if ("upgrade" in init.headers) {
+        console.log(`remove upgrade for ${msg.localPartOfURL}`);
+        delete init.headers["upgrade"];
+      }
 
       if (msg.body.length > 0) {
         init["body"] = base64.decodeBase64(msg.body);
@@ -49,15 +53,9 @@ export const connect = async (
         `response ${msg.id} from "${`http://localhost:${port}/${msg.localPartOfURL}`}" to tunnel "${tunnelName}": ${response.status}`,
       );
 
-      // console.log(response.headers);
       const body = base64.encodeBase64(
         await (await response.blob()).arrayBuffer(),
       );
-      // console.log(body);
-      // console.log(response.status);
-      // console.log(response.statusText);
-      // console.log(body.length);
-
       const headers: { [key: string]: string } = {};
       response.headers.forEach((value, key) => headers[key] = value);
 
@@ -66,6 +64,8 @@ export const connect = async (
         tunnelName,
         headers,
         body,
+        status: response.status,
+        statusText: response.statusText,
       }));
     } catch (e) {
       console.log(e);

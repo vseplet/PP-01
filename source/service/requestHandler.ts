@@ -57,9 +57,16 @@ export const requestHandler = async (
       const incomingMsg = tunnels[tunnelName].incomingMessageBuffer[id];
       delete tunnels[tunnelName].incomingMessageBuffer[id];
       console.log(`receive msg ${id} from tunnel "${tunnelName}"`);
-      return new Response(base64.decodeBase64(incomingMsg.body), {
-        headers: incomingMsg.headers,
-      });
+      return new Response(
+        incomingMsg.body.length != 0
+          ? base64.decodeBase64(incomingMsg.body)
+          : null,
+        {
+          headers: incomingMsg.headers,
+          status: incomingMsg.status,
+          statusText: incomingMsg.statusText,
+        },
+      );
     }
 
     await delay(100);
