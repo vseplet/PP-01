@@ -7,21 +7,17 @@ import { start } from "./start.ts";
 import { IS_DEVELOP, REMOTE_VERSION, VERSION } from "../constants.ts";
 import { upgrade } from "./upgrade.ts";
 
-// https://www.asciiart.eu/text-to-ascii-art fontPagga
+// https://www.asciiart.eu/text-to-ascii-art font Pagga
 const logoText = `
-  ░░░░░░░░░░░░░░░░░░░░░░░░░
-  ░█▀█░█▀█░█▀▀░█░█░█▀▀░▀█▀░
-  ░█▀▀░█░█░█░░░█▀▄░█▀▀░░█░░
-  ░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░▀░░
-  ░█▀█░█▀█░█▀▄░▀█▀░█▀█░█░░░
-  ░█▀▀░█░█░█▀▄░░█░░█▀█░█░░░
-  ░▀░░░▀▀▀░▀░▀░░▀░░▀░▀░▀▀▀░
-  ░░░░░░░░░░░░░░░░░░░░░░░░░`;
+   ▄▄▄· ▄▄▄·      ▄▄▄  ▄▄▄▄▄
+  ▐█ ▄█▐█ ▄█▪     ▀▄ █·•██
+   ██▀· ██▀· ▄█▀▄ ▐▀▀▄  ▐█.▪
+  ▐█▪·•▐█▪·•▐█▌.▐▌▐█•█▌ ▐█▌·
+  .▀   .▀    ▀█▄▀▪.▀  ▀ ▀▀▀ `;
 
 const introText = `
   Version ${colors.green(VERSION)}
-  Crafted with ${colors.red("♥️")} by Vsevolod Pletnev
-
+  Crafted with ${colors.red("<3")} by Vsevolod Pletnev
   Use "pp -h" to get help on commands.
   ${IS_DEVELOP}
 `;

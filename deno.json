@@ -1,5 +1,5 @@
 {
-  "version": "0.0.12-test",
+  "version": "0.0.13-test",
   "tasks": {
     "portal:service": "deno run --allow-all --unstable --watch ./source/service/main.ts",
     "portal:agent": "DEV=true deno run --allow-run --allow-net --allow-env --unstable-kv --watch ./source/agent/main.ts",

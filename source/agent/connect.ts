@@ -14,7 +14,7 @@ export const connect = async (
 
   ws.onopen = function (e) {
     console.log(
-      `Tunnel opened through https://${SERVICE_DOMAIN}/${tunnelName}`,
+      `Tunnel opened through https://${tunnelName}.${SERVICE_DOMAIN}`,
     );
   };
 
@@ -78,26 +78,27 @@ export const connect = async (
         `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,
       );
     } else {
-      console.log(event);
+      // console.log(event);
       console.log(`[close] Connection died, reason=${event.reason}`);
     }
 
-    setTimeout(function () {
-      if (attempts) {
-        console.log(`try to reconnect...`);
-        connect(url, alias, attempts - 1);
-      } else {
-        Deno.exit(-1);
-      }
-    }, 1000);
+    // setTimeout(function () {
+    //   if (attempts) {
+    //     console.log(`try to reconnect...`);
+    //     connect(url, alias, attempts - 1);
+    //   } else {
+    //     Deno.exit(-1);
+    //   }
+    // }, 1000);
   };
 
   ws.onerror = function (error) {
+    console.log(error);
     console.log(`[error] ${error}`);
 
     setTimeout(function () {
-      console.log(`try to reconnect...`);
-      connect(url, alias, attempts);
+      // console.log(`try to reconnect...`);
+      // connect(url, alias, attempts);
     }, 1000);
   };
 };
