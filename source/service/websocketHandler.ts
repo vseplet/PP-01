@@ -1,6 +1,10 @@
 import { tunnels } from "./tunnels.ts";
 
-export const websocketHandler = async (url: URL, req: Request) => {
+export const websocketHandler = async (
+  url: URL,
+  req: Request,
+  subdomain: string,
+) => {
   const wsPattern = new URLPattern({ pathname: "/wss/:tunnelName" });
   const matchResult = wsPattern.exec(url);
   const upgrade = req.headers.get("upgrade");

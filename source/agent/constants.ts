@@ -21,4 +21,4 @@ export const SERVICE_DOMAIN = IS_DEVELOP ? "localhost:4000" : "pport.top";
 
 export const WEBSOCKET_URL = `${
   IS_DEVELOP ? "ws" : "wss"
-}://entry.${SERVICE_DOMAIN}/wss`;
+}://wss.${SERVICE_DOMAIN}/wss`;

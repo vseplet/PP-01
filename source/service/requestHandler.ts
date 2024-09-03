@@ -2,15 +2,19 @@ import { base64, ulid } from "../deps.ts";
 import { tunnels } from "./tunnels.ts";
 import { delay } from "https://deno.land/x/delay@v0.2.0/mod.ts";
 
-export const requestHandler = async (url: URL, req: Request) => {
-  const pattern1 = new URLPattern({ pathname: "/:prefix/*" });
-  const pattern2 = new URLPattern({ pathname: "/:prefix" });
+export const requestHandler = async (
+  url: URL,
+  req: Request,
+  tunnelName: string,
+) => {
+  const pattern1 = new URLPattern({ pathname: "" });
+  const pattern2 = new URLPattern({ pathname: "/*" });
   const matchResult = pattern1.exec(url) || pattern2.exec(url);
 
   if (matchResult == undefined) return new Response(null, { status: 404 });
 
-  const tunnelName = matchResult.pathname.groups
-    .prefix as string;
+  // const tunnelName = matchResult.pathname.groups
+  //   .prefix as string;
 
   if (tunnels[tunnelName] == undefined) {
     return new Response(null, { status: 404 });

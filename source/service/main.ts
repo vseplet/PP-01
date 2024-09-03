@@ -3,10 +3,11 @@ import { websocketHandler } from "./websocketHandler.ts";
 
 async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
+  const subdomain = url.hostname.split(".")[0];
 
-  return url.pathname.includes("/wss/")
-    ? await websocketHandler(url, req)
-    : await requestHandler(url, req);
+  return subdomain == "wss"
+    ? await websocketHandler(url, req, subdomain)
+    : await requestHandler(url, req, subdomain);
 }
 
 Deno.serve({
