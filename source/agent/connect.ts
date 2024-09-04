@@ -33,10 +33,10 @@ export const connect = async (
       };
 
       // TODO: костыль, чтобы не работал hmr
-      if ("upgrade" in init.headers) {
-        console.log(`remove upgrade for ${msg.localPartOfURL}`);
-        delete init.headers["upgrade"];
-      }
+      // if ("upgrade" in init.headers) {
+      //   console.log(`remove upgrade for ${msg.localPartOfURL}`);
+      //   delete init.headers["upgrade"];
+      // }
 
       if (msg.body.length > 0) {
         init["body"] = base64.decodeBase64(msg.body);
@@ -82,24 +82,19 @@ export const connect = async (
       console.log(`[close] Connection died, reason=${event.reason}`);
     }
 
-    // setTimeout(function () {
-    //   if (attempts) {
-    //     console.log(`try to reconnect...`);
-    //     connect(url, alias, attempts - 1);
-    //   } else {
-    //     Deno.exit(-1);
-    //   }
-    // }, 1000);
+    setTimeout(function () {
+      if (attempts) {
+        console.log(`try to reconnect...`);
+        connect(url, alias, attempts - 1);
+      } else {
+        Deno.exit(-1);
+      }
+    }, 1000);
   };
 
   ws.onerror = function (error) {
     console.log(error);
     console.log(`[error] ${error}`);
-
-    setTimeout(function () {
-      // console.log(`try to reconnect...`);
-      // connect(url, alias, attempts);
-    }, 1000);
   };
 };
 
