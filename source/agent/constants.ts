@@ -17,7 +17,7 @@ export const REMOTE_VERSION = remoteDenoJson["version"] || VERSION;
 export const ENTRYPOINT_SOURCE_URL =
   `https://raw.githubusercontent.com/vseplet/PP-01/main/source/agent/main.ts`;
 
-export const SERVICE_DOMAIN = IS_DEVELOP ? "localhost:4000" : "pport.top";
+export const SERVICE_DOMAIN = IS_DEVELOP ? "localhost:4000" : "devexp.cloud";
 
 export const WEBSOCKET_URL = `${
   IS_DEVELOP ? "ws" : "wss"
